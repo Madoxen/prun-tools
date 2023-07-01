@@ -41,3 +41,9 @@ func Get_all_recipes() []Recipe {
 	get_fio_object("recipes/allrecipes", &data)
 	return data
 }
+
+func Get_cx_stations() []CXStation {
+	var data []CXStation
+	get_fio_object("exchange/station", &data)
+	return data
+}

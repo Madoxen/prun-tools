@@ -1,5 +1,6 @@
 package fio_connector
 
+// TODO: change floats to decimal type for handling financial data
 // A material and amount
 type MaterialAmount struct {
 	Ticker string `json:"Ticker"`
@@ -57,4 +58,32 @@ type CXData struct {
 	MMSell              float64 `json:"MMSell"`
 	UserNameSubmitted   string  `json:"UserNameSubmitted"`
 	Timestamp           string  `json:"Timestamp"`
+}
+
+type CXStation struct {
+	StationID               string `json:"StationId"`
+	NaturalID               string `json:"NaturalId"`
+	Name                    string `json:"Name"`
+	SystemID                string `json:"SystemId"`
+	SystemNaturalID         string `json:"SystemNaturalId"`
+	SystemName              string `json:"SystemName"`
+	CommisionTimeEpochMs    int64  `json:"CommisionTimeEpochMs"`
+	ComexID                 string `json:"ComexId"`
+	ComexName               string `json:"ComexName"`
+	ComexCode               string `json:"ComexCode"`
+	WarehouseID             string `json:"WarehouseId"`
+	CountryID               string `json:"CountryId"`
+	CountryCode             string `json:"CountryCode"`
+	CountryName             string `json:"CountryName"`
+	CurrencyNumericCode     int    `json:"CurrencyNumericCode"`
+	CurrencyCode            string `json:"CurrencyCode"`
+	CurrencyName            string `json:"CurrencyName"`
+	CurrencyDecimals        int    `json:"CurrencyDecimals"`
+	GovernorID              any    `json:"GovernorId"`
+	GovernorUserName        any    `json:"GovernorUserName"`
+	GovernorCorporationID   string `json:"GovernorCorporationId"`
+	GovernorCorporationName string `json:"GovernorCorporationName"`
+	GovernorCorporationCode string `json:"GovernorCorporationCode"`
+	UserNameSubmitted       string `json:"UserNameSubmitted"`
+	Timestamp               string `json:"Timestamp"`
 }
