@@ -1,8 +1,10 @@
 package main
 
 import (
+	"encoding/csv"
 	"fmt"
 	"math"
+	"os"
 	"sort"
 
 	"github.com/fio_connector"
@@ -94,9 +96,40 @@ func main() {
 		})
 	}
 
-	sort.Sort(ByProfit(trade_routes))
-
-	for _, tr := range trade_routes {
-		fmt.Println(tr)
+	file, err := os.Create("trade_finder.csv")
+	if err != nil {
+		fmt.Println("Error creating file:", err)
+		return
 	}
+	defer file.Close()
+
+	writer := csv.NewWriter(file)
+	defer writer.Flush()
+
+	headers := []string{"Ticker", "AskCX", "Ask", "AskCount", "BidCX", "Bid", "BidCount", "TotalProfit"}
+	err = writer.Write(headers)
+	if err != nil {
+		fmt.Println("Error writing header:", err)
+		return
+	}
+
+	sort.Sort(ByProfit(trade_routes))
+	for _, tr := range trade_routes {
+		row := []string{
+			tr.materialTicker,
+			tr.askCX,
+			fmt.Sprintf("%v", tr.ask),
+			fmt.Sprintf("%v", tr.askCount),
+			tr.bidCX,
+			fmt.Sprintf("%v", tr.bid),
+			fmt.Sprintf("%v", tr.bidCount),
+			fmt.Sprintf("%v", tr.profit),
+		}
+		err = writer.Write(row)
+		if err != nil {
+			fmt.Println("Error writing row:", row, "| Error:", err)
+			return
+		}
+	}
+
 }
