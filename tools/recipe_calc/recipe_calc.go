@@ -16,7 +16,7 @@ type CalculatedRecipe struct {
 	profit       float64
 }
 
-const EXCHANGE_CODE = "NC1"
+const CX = "NC1"
 
 // Calculates cost and possible profit from production
 func main() {
@@ -30,22 +30,6 @@ func main() {
 		fmt.Println(recipe.TimeMs)
 	}
 
-	cxData := fio_connector.Get_cx_data()
-
-	//Group cxData by material
-	priceLookup := make(map[string]map[string]fio_connector.CXData)
-
-	for _, cxEntry := range cxData {
-		key := cxEntry.MaterialTicker
-		priceLookupEntry, ok := priceLookup[key]
-		if !ok {
-			priceLookup[key] = make(map[string]fio_connector.CXData)
-			priceLookupEntry = priceLookup[key]
-		}
-
-		priceLookupEntry[cxEntry.ExchangeCode] = cxEntry
-	}
-
 	//Price calculations
 	output_data := make([]CalculatedRecipe, 0)
 	for _, recipe := range recipes {
@@ -55,13 +39,13 @@ func main() {
 
 		//get all substrate costs
 		for _, substrate := range recipe.Inputs {
-			price := priceLookup[substrate.Ticker][EXCHANGE_CODE].Ask
+			price := fio_connector.Get_price(substrate.Ticker, CX).Ask
 			cost += price * float64(substrate.Amount)
 		}
 
 		//get all outputs profits
 		for _, output := range recipe.Outputs {
-			price := priceLookup[output.Ticker][EXCHANGE_CODE].Bid
+			price := fio_connector.Get_price(output.Ticker, CX).Bid
 			revenue += price * float64(output.Amount)
 		}
 
@@ -108,5 +92,4 @@ func main() {
 			return
 		}
 	}
-
 }
