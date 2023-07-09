@@ -87,3 +87,44 @@ type CXStation struct {
 	UserNameSubmitted       string `json:"UserNameSubmitted"`
 	Timestamp               string `json:"Timestamp"`
 }
+
+type Building struct {
+	BuildingCosts []struct {
+		CommodityName   string  `json:"CommodityName"`
+		CommodityTicker string  `json:"CommodityTicker"`
+		Weight          float64 `json:"Weight"`
+		Volume          float64 `json:"Volume"`
+		Amount          int     `json:"Amount"`
+	} `json:"BuildingCosts"`
+	Recipes []struct {
+		Inputs             []any  `json:"Inputs"`
+		Outputs            []any  `json:"Outputs"`
+		BuildingRecipeID   string `json:"BuildingRecipeId"`
+		DurationMs         int    `json:"DurationMs"`
+		RecipeName         string `json:"RecipeName"`
+		StandardRecipeName string `json:"StandardRecipeName"`
+	} `json:"Recipes"`
+	BuildingID        string `json:"BuildingId"`
+	Name              string `json:"Name"`
+	Ticker            string `json:"Ticker"`
+	Expertise         string `json:"Expertise"`
+	Pioneers          int    `json:"Pioneers"`
+	Settlers          int    `json:"Settlers"`
+	Technicians       int    `json:"Technicians"`
+	Engineers         int    `json:"Engineers"`
+	Scientists        int    `json:"Scientists"`
+	AreaCost          int    `json:"AreaCost"`
+	UserNameSubmitted string `json:"UserNameSubmitted"`
+	Timestamp         string `json:"Timestamp"`
+}
+
+type WorkforceNeeds struct {
+	Needs []struct {
+		MaterialID       string  `json:"MaterialId"`
+		MaterialName     string  `json:"MaterialName"`
+		MaterialTicker   string  `json:"MaterialTicker"`
+		MaterialCategory string  `json:"MaterialCategory"`
+		Amount           float64 `json:"Amount"`
+	} `json:"Needs"`
+	WorkforceType string `json:"WorkforceType"`
+}
