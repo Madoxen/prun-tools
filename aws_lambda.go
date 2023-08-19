@@ -23,12 +23,12 @@ func HandleRequest(ctx context.Context, name MyEvent) (string, error) {
 	// Run tools
 	recipe_calc_out, err := recipe_calc.Calculate()
 	if err != nil {
-		log.Printf("ERROR - could not run recipe calc", err)
+		log.Printf("ERROR - could not run recipe calc: %s", err)
 		return "FAILURE", err
 	}	
 	trade_finder_out, err := trade_finder.Calculate()
 	if err != nil {
-		log.Printf("ERROR - could not run trade finder", err)
+		log.Printf("ERROR - could not run trade finder, %s", err)
 		return "FAILURE", err
 	}	
 
