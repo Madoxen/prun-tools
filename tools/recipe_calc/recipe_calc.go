@@ -4,6 +4,7 @@ import (
 	"encoding/csv"
 	"fmt"
 	"bytes"
+	"strings"
 
 	"github.com/fio_connector"
 )
@@ -19,6 +20,13 @@ type CalculatedRecipe struct {
 }
 const CX = "NC1"
 const DAY_MILISECONDS = 24 * 3600 * 1000
+
+
+func getFormattedFloat(f float64) string {
+	str := fmt.Sprintf("%f", f)	
+	str = strings.Replace(str, ".", ",", -1)
+	return str
+}
 
 func Calculate() (*bytes.Buffer, error){
 
@@ -104,11 +112,11 @@ func Calculate() (*bytes.Buffer, error){
 		row := []string{
 			data.RecipeName,
 			data.BuildingName,
-			fmt.Sprintf("%v", data.workforce_cost),
-			fmt.Sprintf("%v", data.cost),
-			fmt.Sprintf("%v", data.revenue),
-			fmt.Sprintf("%v", data.profit),
-			fmt.Sprintf("%v", data.profit_per_day),
+			getFormattedFloat(data.workforce_cost),
+			getFormattedFloat(data.cost),
+			getFormattedFloat(data.revenue),
+			getFormattedFloat(data.profit),
+			getFormattedFloat(data.profit_per_day),
 		}
 		err := writer.Write(row)
 		if err != nil {
