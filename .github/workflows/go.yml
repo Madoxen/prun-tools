@@ -53,3 +53,17 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_LAMBDA_NAME: ${{ secrets.AWS_LAMBDA_NAME }}
         AWS_REGION: ${{ vars.AWS_REGION }}
+
+    - name: Wait 1 minute before invoking lambda
+      run: sleep 60
+      
+    - name: Invoke Lambda
+      run: |
+        aws lambda invoke \
+        --function-name $AWS_LAMBDA_NAME
+        out.txt
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_LAMBDA_NAME: ${{ secrets.AWS_LAMBDA_NAME }}
+        AWS_REGION: ${{ vars.AWS_REGION }}
