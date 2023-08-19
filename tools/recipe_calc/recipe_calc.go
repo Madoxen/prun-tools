@@ -1,9 +1,9 @@
-package main
+package recipe_calc
 
 import (
 	"encoding/csv"
 	"fmt"
-	"os"
+	"bytes"
 
 	"github.com/fio_connector"
 )
@@ -17,12 +17,11 @@ type CalculatedRecipe struct {
 	profit         float64
 	profit_per_day float64
 }
-
 const CX = "NC1"
 const DAY_MILISECONDS = 24 * 3600 * 1000
 
-// Calculates cost and possible profit from production
-func main() {
+func Calculate() (*bytes.Buffer, error){
+
 	recipes := fio_connector.Get_all_recipes()
 
 	//Prefetch workforce needs as those are static and only will be multiplied
@@ -90,21 +89,15 @@ func main() {
 	}
 
 	//Save data to CSV
-	file, err := os.Create("recipe_calc.csv")
-	if err != nil {
-		fmt.Println("Error creating file:", err)
-		return
-	}
-	defer file.Close()
-
-	writer := csv.NewWriter(file)
+	b := new(bytes.Buffer)
+	writer := csv.NewWriter(b)
 	defer writer.Flush()
 
 	headers := []string{"Ticker", "BuildingName", "Workforce Cost", "Cost", "Revenue", "Profit", "Profit Per Day"}
-	err = writer.Write(headers)
+	err := writer.Write(headers)
 	if err != nil {
 		fmt.Println("Error writing header:", err)
-		return
+		return nil, err
 	}
 
 	for _, data := range output_data {
@@ -117,10 +110,12 @@ func main() {
 			fmt.Sprintf("%v", data.profit),
 			fmt.Sprintf("%v", data.profit_per_day),
 		}
-		err = writer.Write(row)
+		err := writer.Write(row)
 		if err != nil {
 			fmt.Println("Error writing row:", row, "| Error:", err)
-			return
+			return nil, err
 		}
 	}
+
+	return b, nil
 }

@@ -1,7 +1,6 @@
 go 1.20
 
 use (
+	.
 	./fio_connector
-	./tools/recipe_calc
-	./tools/trade_finder
 )
