@@ -93,7 +93,7 @@ func Calculate() (*bytes.Buffer, error){
 	writer := csv.NewWriter(b)
 	defer writer.Flush()
 
-	headers := []string{"Ticker", "BuildingName", "Workforce Cost", "Cost", "Revenue", "Profit", "Profit Per Day"}
+	headers := []string{"Ticker", "BuildingName", "Workforce Cost", "Total Cost", "Revenue", "Profit", "Profit Per Day"}
 	err := writer.Write(headers)
 	if err != nil {
 		fmt.Println("Error writing header:", err)
